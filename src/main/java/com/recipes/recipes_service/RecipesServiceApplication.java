@@ -9,4 +9,5 @@ public class RecipesServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(RecipesServiceApplication.class, args);
     }
+
 }
