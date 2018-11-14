@@ -5,7 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 
 @Data
@@ -23,5 +23,5 @@ public class IngredientEntity implements Serializable {
     private String ingredientName;
 
     @OneToMany(mappedBy = "primaryKey.ingredientEntity", cascade = CascadeType.ALL)
-    private Set<RecipeIngredientEntity> recipeIngredientEntities;
+    private List<RecipeIngredientEntity> recipes;
 }

@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "RECIPE_INGREDIENTS")
+@Table(name = "RECIPE_INGREDIENT")
 @AssociationOverrides({
         @AssociationOverride(name = "primaryKey.ingredientEntity",
                 joinColumns = @JoinColumn(name = "INGREDIENT_ID")),
