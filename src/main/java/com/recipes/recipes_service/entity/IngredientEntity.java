@@ -17,11 +17,11 @@ public class IngredientEntity implements Serializable {
 
     @Id
     @Column(name = "ID", updatable = false, nullable = false)
-    private Long id;
+    private Long ingredient_id;
 
     @Column(name = "INGREDIENT_NAME", nullable = false)
     private String ingredientName;
 
-    @OneToMany(mappedBy = "primaryKey.ingredientEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "primaryKey.ingredientEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<RecipeIngredientEntity> recipes;
 }

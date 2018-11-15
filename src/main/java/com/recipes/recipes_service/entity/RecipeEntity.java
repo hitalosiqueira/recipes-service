@@ -16,7 +16,8 @@ public class RecipeEntity implements Serializable {
 
     @Id
     @Column(name = "ID", updatable = false, nullable = false)
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long recipe_id;
 
     @Column(name = "RECIPE_NAME", nullable = false)
     private String recipeName;
@@ -30,7 +31,7 @@ public class RecipeEntity implements Serializable {
     @Column(name = "INSTRUCTIONS", nullable = false)
     private String instructions;
 
-    @OneToMany(mappedBy = "primaryKey.recipeEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "primaryKey.recipeEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<RecipeIngredientEntity> ingredients;
 
 }

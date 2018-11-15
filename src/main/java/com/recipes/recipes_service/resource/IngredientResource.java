@@ -12,12 +12,12 @@ import org.springframework.hateoas.core.Relation;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @JsonPropertyOrder({
-        "nome"
+        "name"
 })
 @Relation(value="ingredient", collectionRelation="ingredients")
 public class IngredientResource extends ResourceSupport {
 
-    @JsonProperty("nome")
+    @JsonProperty("name")
     private String ingredientName;
 
 }

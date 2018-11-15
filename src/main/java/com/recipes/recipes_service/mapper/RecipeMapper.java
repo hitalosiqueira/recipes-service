@@ -51,4 +51,5 @@ public interface RecipeMapper {
 
     List<Ingredient> fromIngredientsEntityToIngredientsDto(List<IngredientEntity> recipeEntities);
 
+    RecipeEntity toRecipeEntity(Recipe recipe);
 }

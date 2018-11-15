@@ -7,6 +7,8 @@ import com.recipes.recipes_service.resource.IngredientResource;
 import com.recipes.recipes_service.resource.RecipeResource;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface RecipeResourceMapper {
 
@@ -16,5 +18,7 @@ public interface RecipeResourceMapper {
 
     IngredientResource toIngredientResource(Ingredient ingredient);
 
+    Recipe toRecipe(RecipeResource recipeResource);
 
+    List<Ingredient> toIngredients(List<IngredientRecipeResource> ingredientRecipeResources);
 }

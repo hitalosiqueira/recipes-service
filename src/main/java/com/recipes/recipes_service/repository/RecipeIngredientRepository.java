@@ -4,10 +4,13 @@ import com.recipes.recipes_service.dto.Ingredient;
 import com.recipes.recipes_service.dto.Recipe;
 import com.recipes.recipes_service.entity.IngredientEntity;
 import com.recipes.recipes_service.entity.RecipeEntity;
+import com.recipes.recipes_service.entity.RecipeIngredientEntity;
+import com.recipes.recipes_service.entity.RecipeIngredientIdEntity;
 import com.recipes.recipes_service.mapper.RecipeMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -15,6 +18,7 @@ import java.util.List;
 public class RecipeIngredientRepository {
     IngredientJpaRepository ingredientJpaRepository;
     RecipeJpaRepository recipeJpaRepository;
+    RecipeIngredientJpaRepository recipeIngredientJpaRepository;
     RecipeMapper recipeMapper;
 
 
@@ -56,5 +60,30 @@ public class RecipeIngredientRepository {
         IngredientEntity ingredientEntity = ingredientJpaRepository.getOne(id);
 
         return recipeMapper.toIngredientDto(ingredientEntity);
+    }
+
+    public Recipe createRecipe(Recipe recipe) {
+        final RecipeEntity recipeEntity = recipeMapper.toRecipeEntity(recipe);
+        List<RecipeIngredientEntity> recipeIngredientEntities = new ArrayList<>();
+
+        recipe.getIngredients().forEach(e -> {
+            RecipeIngredientEntity recipeIngredientEntity = new RecipeIngredientEntity();
+            RecipeIngredientIdEntity recipeIngredientIdEntity = new RecipeIngredientIdEntity();
+            IngredientEntity ingredientEntity = ingredientJpaRepository.findByIngredientName(e.getIngredientName());
+
+            recipeIngredientIdEntity.setRecipeEntity(recipeEntity);
+            recipeIngredientIdEntity.setIngredientEntity(ingredientEntity);
+
+            recipeIngredientEntity.setAmount(e.getAmount());
+            recipeIngredientEntity.setPrimaryKey(recipeIngredientIdEntity);
+            recipeIngredientEntities.add(recipeIngredientEntity);
+        });
+        recipeEntity.setIngredients(recipeIngredientEntities);
+
+        recipeJpaRepository.save(recipeEntity);
+
+        return recipeMapper.toRecipeDto(recipeEntity);
+
+
     }
 }

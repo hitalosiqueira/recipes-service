@@ -29,8 +29,8 @@ public class IngredientRecipeResourceAssembler extends ResourceAssemblerSupport<
         ingredientRecipeResource
                 .add(linkTo(methodOn(RecipeEndpoint.class)
                         .getIngredientById(ingredient
-                                .getId()))
-                        .withRel("ingrediente"));
+                                .getIngredient_id()))
+                        .withRel("ingredient"));
 
         return ingredientRecipeResource;
     }

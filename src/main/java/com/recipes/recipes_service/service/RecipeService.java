@@ -15,7 +15,7 @@ public class RecipeService {
 
 
     public List<Recipe> getAllRecipes() {
-       return recipeIngredientRepository.getAllRecipes();
+        return recipeIngredientRepository.getAllRecipes();
     }
 
     public Recipe getRecipeById(Long id) {
@@ -40,5 +40,10 @@ public class RecipeService {
 
     public Ingredient getIngredientById(Long id) {
         return recipeIngredientRepository.getIngredientById(id);
+    }
+
+    public Recipe createRecipe(Recipe recipe) {
+        //TODO validate recipe
+        return recipeIngredientRepository.createRecipe(recipe);
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Recipe {
 
-    private Long id;
+    private Long recipe_id;
 
     private String recipeName;
 

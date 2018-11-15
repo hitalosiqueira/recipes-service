@@ -29,7 +29,7 @@ public class IngredientResourceAssembler extends ResourceAssemblerSupport<Ingred
         ingredientResource
                 .add(linkTo(methodOn(RecipeEndpoint.class)
                         .getIngredientById(ingredient
-                                .getId()))
+                                .getIngredient_id()))
                         .withSelfRel());
 
         return ingredientResource;

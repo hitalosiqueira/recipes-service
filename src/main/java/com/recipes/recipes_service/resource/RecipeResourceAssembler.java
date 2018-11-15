@@ -27,12 +27,12 @@ public class RecipeResourceAssembler extends ResourceAssemblerSupport<Recipe, Re
         recipeResource
                 .add(linkTo(methodOn(RecipeEndpoint.class)
                         .getRecipeIngredients(recipe
-                                .getId()))
-                        .withRel("ingredientes"));
+                                .getRecipe_id()))
+                        .withRel("recipeIngredients"));
         recipeResource
                 .add(linkTo(methodOn(RecipeEndpoint.class)
                         .getRecipeById(recipe
-                                .getId()))
+                                .getRecipe_id()))
                         .withSelfRel());
 
         return recipeResource;
