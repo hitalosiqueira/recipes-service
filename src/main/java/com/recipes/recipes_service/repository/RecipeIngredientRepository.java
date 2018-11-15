@@ -48,7 +48,7 @@ public class RecipeIngredientRepository {
     }
 
     public List<Ingredient> getAllIngredients() {
-        List<IngredientEntity> ingredientEntities = ingredientJpaRepository.findAll();
+        List<IngredientEntity> ingredientEntities = ingredientJpaRepository.findAllByOrderByIngredientNameAsc();
         return recipeMapper.fromIngredientsEntityToIngredientsDto(ingredientEntities);
     }
 

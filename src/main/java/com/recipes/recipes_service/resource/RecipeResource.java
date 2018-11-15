@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.core.Relation;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -16,6 +17,7 @@ import org.springframework.hateoas.ResourceSupport;
         "calorias",
         "instruções"
 })
+@Relation(value="recipe", collectionRelation="recipes")
 public class RecipeResource extends ResourceSupport {
 
     @JsonProperty("nome")
