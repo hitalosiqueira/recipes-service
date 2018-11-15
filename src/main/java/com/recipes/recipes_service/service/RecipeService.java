@@ -37,4 +37,8 @@ public class RecipeService {
     public List<Ingredient> getAllIngredients() {
         return recipeIngredientRepository.getAllIngredients();
     }
+
+    public Ingredient getIngredientById(Long id) {
+        return recipeIngredientRepository.getIngredientById(id);
+    }
 }

@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 @Component
 public class RecipeResourceAssembler extends ResourceAssemblerSupport<Recipe, RecipeResource> {
 
@@ -19,6 +22,19 @@ public class RecipeResourceAssembler extends ResourceAssemblerSupport<Recipe, Re
 
     @Override
     public RecipeResource toResource(Recipe recipe) {
-        return recipeResourceMapper.toRecipeResource(recipe);
+        RecipeResource recipeResource = recipeResourceMapper.toRecipeResource(recipe);
+
+        recipeResource
+                .add(linkTo(methodOn(RecipeEndpoint.class)
+                        .getRecipeIngredients(recipe
+                                .getId()))
+                        .withRel("ingredientes"));
+        recipeResource
+                .add(linkTo(methodOn(RecipeEndpoint.class)
+                        .getRecipeById(recipe
+                                .getId()))
+                        .withSelfRel());
+
+        return recipeResource;
     }
 }

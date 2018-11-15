@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Ingredient {
 
+    private Long id;
     private String ingredientName;
     private String amount;
 }

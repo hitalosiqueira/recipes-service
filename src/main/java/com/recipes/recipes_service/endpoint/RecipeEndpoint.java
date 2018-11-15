@@ -7,6 +7,7 @@ import com.recipes.recipes_service.mapper.RecipeResourceMapper;
 import com.recipes.recipes_service.resource.*;
 import com.recipes.recipes_service.service.RecipeService;
 import lombok.AllArgsConstructor;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping(
         value = "/api",
@@ -25,19 +29,21 @@ import java.util.List;
 )
 @AllArgsConstructor
 public class RecipeEndpoint {
+
     RecipeService recipeService;
     RecipeResourceMapper recipeResourceMapper;
     RecipeResourceAssembler recipeResourceAssembler;
     IngredientRecipeResourceAssembler ingredientRecipeResourceAssembler;
     IngredientResourceAssembler ingredientResourceAssembler;
 
+
     @GetMapping(value = "/receitas")
     public ResponseEntity<Resources<RecipeResource>> getAllRecipes(){
         List<Recipe> recipes = recipeService.getAllRecipes();
         List<RecipeResource> recipeResources = recipeResourceAssembler.toResources(recipes);
 
-        Resources<RecipeResource> result = new Resources<>(recipeResources);
-
+        Link link = linkTo(methodOn(RecipeEndpoint.class).getAllRecipes()).withSelfRel();
+        Resources<RecipeResource> result = new Resources<>(recipeResources, link);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -48,7 +54,6 @@ public class RecipeEndpoint {
         RecipeResource recipeResource = recipeResourceAssembler.toResource(recipe);
 
         return ResponseEntity.ok(recipeResource);
-
     }
 
     @GetMapping(value = "/receitas/{id:[0-9]+}/ingredientes")
@@ -56,8 +61,8 @@ public class RecipeEndpoint {
         List<Ingredient> ingredients = recipeService.getRecipeIngredients(id);
         List<IngredientRecipeResource> ingredientRecipeResource = ingredientRecipeResourceAssembler.toResources(ingredients);
 
-
-        Resources<IngredientRecipeResource> result = new Resources<>(ingredientRecipeResource);
+        Link link = linkTo(methodOn(RecipeEndpoint.class).getRecipeIngredients(id)).withSelfRel();
+        Resources<IngredientRecipeResource> result = new Resources<>(ingredientRecipeResource, link);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -67,18 +72,20 @@ public class RecipeEndpoint {
         List<Recipe> recipes = recipeService.getRecipesFromIngredient(id);
         List<RecipeResource> recipeResources = recipeResourceAssembler.toResources(recipes);
 
-        Resources<RecipeResource> result = new Resources<>(recipeResources);
+        Link link = linkTo(methodOn(RecipeEndpoint.class).getRecipeFromIngredient(id)).withSelfRel();
+        Resources<RecipeResource> result = new Resources<>(recipeResources, link);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
 
     }
 
     @GetMapping(value = "/receitas/{ingrediente:[a-zA-Z]+}")
-    public ResponseEntity<Resources<RecipeResource>> getRecipeFromIngredient(@PathVariable("ingrediente") String ingredient){
+    public ResponseEntity<Resources<RecipeResource>> getRecipeFromIngredientName(@PathVariable("ingrediente") String ingredient){
         List<Recipe> recipes = recipeService.getRecipesFromIngredientName(ingredient);
         List<RecipeResource> recipeResources = recipeResourceAssembler.toResources(recipes);
 
-        Resources<RecipeResource> result = new Resources<>(recipeResources);
+        Link link = linkTo(methodOn(RecipeEndpoint.class).getRecipeFromIngredientName(ingredient)).withSelfRel();
+        Resources<RecipeResource> result = new Resources<>(recipeResources, link);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -88,11 +95,17 @@ public class RecipeEndpoint {
         List<Ingredient> ingredients = recipeService.getAllIngredients();
         List<IngredientResource> ingredientResources = ingredientResourceAssembler.toResources(ingredients);
 
-        Resources<IngredientResource> result = new Resources<>(ingredientResources);
-
+        Link link = linkTo(methodOn(RecipeEndpoint.class).getAllIngredients()).withSelfRel();
+        Resources<IngredientResource> result = new Resources<>(ingredientResources, link);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/ingredientes/{id}")
+    public ResponseEntity<IngredientResource> getIngredientById(@PathVariable("id") Long id){
+        Ingredient ingredient = recipeService.getIngredientById(id);
+        IngredientResource ingredientResource = ingredientResourceAssembler.toResource(ingredient);
 
+        return ResponseEntity.ok(ingredientResource);
+    }
 }

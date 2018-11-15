@@ -9,6 +9,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Recipe {
 
+    private Long id;
+
     private String recipeName;
 
     private Integer portions;

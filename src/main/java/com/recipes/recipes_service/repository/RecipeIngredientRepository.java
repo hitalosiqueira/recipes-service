@@ -51,4 +51,10 @@ public class RecipeIngredientRepository {
         List<IngredientEntity> ingredientEntities = ingredientJpaRepository.findAll();
         return recipeMapper.fromIngredientsEntityToIngredientsDto(ingredientEntities);
     }
+
+    public Ingredient getIngredientById(Long id) {
+        IngredientEntity ingredientEntity = ingredientJpaRepository.getOne(id);
+
+        return recipeMapper.toIngredientDto(ingredientEntity);
+    }
 }
