@@ -2,13 +2,16 @@ package com.recipes.recipes_service.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class RecipeResource {
+public class RecipeResource extends ResourceSupport {
 
     @JsonProperty("nome")
     private String recipeName;
@@ -23,5 +26,5 @@ public class RecipeResource {
     private String instructions;
 
     @JsonProperty("ingredientes")
-    private List<IngredientResource> ingredients;
+    private List<IngredientRecipeResource> ingredients;
 }

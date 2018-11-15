@@ -9,9 +9,11 @@ import org.springframework.hateoas.ResourceSupport;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class IngredientResource extends ResourceSupport {
+public class IngredientRecipeResource extends ResourceSupport {
 
     @JsonProperty("ingrediente")
     private String ingredientName;
 
+    @JsonProperty("quantidade")
+    private String amount;
 }

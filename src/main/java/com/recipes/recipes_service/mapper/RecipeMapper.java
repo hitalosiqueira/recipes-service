@@ -14,11 +14,11 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface RecipeMapper {
 
-    List<Recipe> toRecipesDto(List<RecipeEntity> recipeEntities);
+    List<Recipe> fromRecipesEntityToRecipesDto(List<RecipeEntity> recipeEntities);
 
     Ingredient toIngredientDto(IngredientEntity ingredientEntity);
 
-    default List<Ingredient> toIngredientsDto(List<RecipeIngredientEntity> recipeIngredientEntities) {
+    default List<Ingredient> fromRecipeIngredientEntityToIngredientsDto(List<RecipeIngredientEntity> recipeIngredientEntities) {
         List<Ingredient> ingredients = new ArrayList<>();
         recipeIngredientEntities.forEach(e -> {
 
@@ -33,5 +33,22 @@ public interface RecipeMapper {
         return ingredients;
     }
 
+    default List<Recipe> fromRecipeIngredientEntityToRecipesDto(List<RecipeIngredientEntity> recipeIngredientEntities) {
+        List<Recipe> recipes = new ArrayList<>();
+        recipeIngredientEntities.forEach(e -> {
+
+            Recipe recipe = toRecipeDto(e
+                    .getPrimaryKey()
+                    .getRecipeEntity());
+
+            recipes.add(recipe);
+        });
+
+        return recipes;
+    }
+
+    Recipe toRecipeDto(RecipeEntity recipeEntity);
+
+    List<Ingredient> fromIngredientsEntityToIngredientsDto(List<IngredientEntity> recipeEntities);
 
 }
