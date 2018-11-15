@@ -39,10 +39,7 @@ public class RecipeEndpoint {
         recipe = recipeService.createRecipe(recipe);
         RecipeResource result = recipeResourceAssembler.toResource(recipe);
 
-        //recipe = recipeService.createRecipe(recipe);
-        //RecipeResource result = recipeResourceAssembler.toResource(recipe);
-
-        return ResponseEntity.ok(result);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
 
@@ -88,7 +85,7 @@ public class RecipeEndpoint {
 
     }
 
-    @GetMapping(value = "/receitas/{ingrediente:[a-zA-Z]+}")
+    @GetMapping(value = "/receitas/{ingrediente:[a-zA-Z ]+}")
     public ResponseEntity<Resources<RecipeResource>> getRecipeFromIngredientName(@PathVariable("ingrediente") String ingredient){
         List<Recipe> recipes = recipeService.getRecipesFromIngredientName(ingredient);
         List<RecipeResource> recipeResources = recipeResourceAssembler.toResources(recipes);
