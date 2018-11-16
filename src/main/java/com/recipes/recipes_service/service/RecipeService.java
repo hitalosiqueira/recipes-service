@@ -36,7 +36,15 @@ public class RecipeService {
     }
 
     public List<Ingredient> getRecipeIngredients(Long id) {
-        return recipeIngredientRepository.getRecipeIngredient(id);
+        List<Ingredient> ingredients;
+
+        try{
+            ingredients = recipeIngredientRepository.getRecipeIngredient(id);
+        }catch (EntityNotFoundException ex){
+            throw new NotFoundException(ErrorCode.NOT_FOUND_INGREDIENT);
+        }
+
+        return ingredients;
     }
 
     public List<Recipe> getRecipesFromIngredient(Long id) {

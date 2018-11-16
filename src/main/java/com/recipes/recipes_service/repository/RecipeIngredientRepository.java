@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Component
@@ -22,7 +23,6 @@ public class RecipeIngredientRepository {
     RecipeJpaRepository recipeJpaRepository;
     RecipeIngredientJpaRepository recipeIngredientJpaRepository;
     RecipeMapper recipeMapper;
-
 
     public List<Recipe> getAllRecipes() {
         List<RecipeEntity> recipeEntities = recipeJpaRepository.findAll();
@@ -36,15 +36,23 @@ public class RecipeIngredientRepository {
     }
 
     public List<Ingredient> getRecipeIngredient(Long id) {
-        RecipeEntity recipeEntity = recipeJpaRepository.getOne(id);
+        Optional<RecipeEntity> recipeEntity = recipeJpaRepository.findById(id);
 
-        return recipeMapper.fromRecipeIngredientEntityToIngredientsDto(recipeEntity.getIngredients());
+        if(!recipeEntity.isPresent()){
+            return new ArrayList<>();
+        }else{
+            return recipeMapper.fromRecipeIngredientEntityToIngredientsDto(recipeEntity.get().getIngredients());
+        }
     }
 
     public List<Recipe> getRecipeFromIngredient(Long id) {
-        IngredientEntity ingredientEntity = ingredientJpaRepository.getOne(id);
+        Optional<IngredientEntity> ingredientEntity = ingredientJpaRepository.findById(id);
 
-        return recipeMapper.fromRecipeIngredientEntityToRecipesDto(ingredientEntity.getRecipes());
+        if(!ingredientEntity.isPresent()){
+            return new ArrayList<>();
+        }else{
+            return recipeMapper.fromRecipeIngredientEntityToRecipesDto(ingredientEntity.get().getRecipes());
+        }
     }
 
     public List<Recipe> getRecipeFromIngredientName(String ingredient) {
@@ -93,7 +101,5 @@ public class RecipeIngredientRepository {
         recipeJpaRepository.save(recipeEntity);
 
         return recipeMapper.toRecipeDto(recipeEntity);
-
-
     }
 }

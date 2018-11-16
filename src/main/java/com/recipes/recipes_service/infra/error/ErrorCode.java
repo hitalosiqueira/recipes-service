@@ -13,7 +13,10 @@ public enum ErrorCode {
     BAD_REQUEST_INGREDIENT_AMOUNT_REQUIRED("009", "A quantidade é obrigatória"),
 
     NOT_FOUND_RECIPE("010", "Receita não encontrada"),
-    NOT_FOUND_INGREDIENT("011", "Ingrediente não encontrado");
+    NOT_FOUND_INGREDIENT("011", "Ingrediente não encontrado"),
+    NOT_FOUND_URI("012", "Uri não encontrada"),
+
+    INTERNAL_SERVER_ERROR("111", "Um erro inesperado ocorreu");
 
 
     private String code;
