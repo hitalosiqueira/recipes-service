@@ -6,6 +6,8 @@ import com.recipes.recipes_service.entity.IngredientEntity;
 import com.recipes.recipes_service.entity.RecipeEntity;
 import com.recipes.recipes_service.entity.RecipeIngredientEntity;
 import com.recipes.recipes_service.entity.RecipeIngredientIdEntity;
+import com.recipes.recipes_service.infra.error.ErrorCode;
+import com.recipes.recipes_service.infra.exception.NotFoundException;
 import com.recipes.recipes_service.mapper.RecipeMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -48,7 +50,11 @@ public class RecipeIngredientRepository {
     public List<Recipe> getRecipeFromIngredientName(String ingredient) {
         IngredientEntity ingredientEntity = ingredientJpaRepository.findByIngredientName(ingredient);
 
-        return recipeMapper.fromRecipeIngredientEntityToRecipesDto(ingredientEntity.getRecipes());
+        if(ingredientEntity == null){
+            return new ArrayList<>();
+        }else{
+            return recipeMapper.fromRecipeIngredientEntityToRecipesDto(ingredientEntity.getRecipes());
+        }
     }
 
     public List<Ingredient> getAllIngredients() {
@@ -70,6 +76,10 @@ public class RecipeIngredientRepository {
             RecipeIngredientEntity recipeIngredientEntity = new RecipeIngredientEntity();
             RecipeIngredientIdEntity recipeIngredientIdEntity = new RecipeIngredientIdEntity();
             IngredientEntity ingredientEntity = ingredientJpaRepository.findByIngredientName(e.getIngredientName());
+
+            if(ingredientEntity == null){
+                throw new NotFoundException(ErrorCode.NOT_FOUND_INGREDIENT);
+            }
 
             recipeIngredientIdEntity.setRecipeEntity(recipeEntity);
             recipeIngredientIdEntity.setIngredientEntity(ingredientEntity);

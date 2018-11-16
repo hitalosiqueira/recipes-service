@@ -31,7 +31,7 @@ public class RecipeEntity implements Serializable {
     @Column(name = "INSTRUCTIONS", nullable = false)
     private String instructions;
 
-    @OneToMany(mappedBy = "primaryKey.recipeEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "primaryKey.recipeEntity", cascade = CascadeType.ALL)
     private List<RecipeIngredientEntity> ingredients;
 
 }

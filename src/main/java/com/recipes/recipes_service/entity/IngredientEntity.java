@@ -22,6 +22,6 @@ public class IngredientEntity implements Serializable {
     @Column(name = "INGREDIENT_NAME", nullable = false)
     private String ingredientName;
 
-    @OneToMany(mappedBy = "primaryKey.ingredientEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "primaryKey.ingredientEntity", cascade = CascadeType.ALL)
     private List<RecipeIngredientEntity> recipes;
 }

@@ -42,14 +42,18 @@ public class RecipeEndpoint {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-
     @GetMapping(value = "/receitas")
     public ResponseEntity<Resources<RecipeResource>> getAllRecipes(){
         List<Recipe> recipes = recipeService.getAllRecipes();
         List<RecipeResource> recipeResources = recipeResourceAssembler.toResources(recipes);
 
-        Link link = linkTo(methodOn(RecipeEndpoint.class).getAllRecipes()).withSelfRel();
-        Resources<RecipeResource> result = new Resources<>(recipeResources, link);
+        Resources<RecipeResource> result;
+        if(recipes.size() > 0){
+            Link link = linkTo(methodOn(RecipeEndpoint.class).getAllRecipes()).withSelfRel();
+            result = new Resources<>(recipeResources, link);
+        }else{
+            result = new Resources<>(recipeResources);
+        }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -67,8 +71,13 @@ public class RecipeEndpoint {
         List<Ingredient> ingredients = recipeService.getRecipeIngredients(id);
         List<IngredientRecipeResource> ingredientRecipeResource = ingredientRecipeResourceAssembler.toResources(ingredients);
 
-        Link link = linkTo(methodOn(RecipeEndpoint.class).getRecipeIngredients(id)).withSelfRel();
-        Resources<IngredientRecipeResource> result = new Resources<>(ingredientRecipeResource, link);
+        Resources<IngredientRecipeResource> result;
+        if(ingredients.size() > 0){
+            Link link = linkTo(methodOn(RecipeEndpoint.class).getRecipeIngredients(id)).withSelfRel();
+            result = new Resources<>(ingredientRecipeResource, link);
+        }else{
+            result = new Resources<>(ingredientRecipeResource);
+        }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -78,8 +87,13 @@ public class RecipeEndpoint {
         List<Recipe> recipes = recipeService.getRecipesFromIngredient(id);
         List<RecipeResource> recipeResources = recipeResourceAssembler.toResources(recipes);
 
-        Link link = linkTo(methodOn(RecipeEndpoint.class).getRecipeFromIngredient(id)).withSelfRel();
-        Resources<RecipeResource> result = new Resources<>(recipeResources, link);
+        Resources<RecipeResource> result;
+        if(recipes.size() > 0){
+            Link link = linkTo(methodOn(RecipeEndpoint.class).getRecipeFromIngredient(id)).withSelfRel();
+            result = new Resources<>(recipeResources, link);
+        }else{
+            result = new Resources<>(recipeResources);
+        }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
 
@@ -90,8 +104,13 @@ public class RecipeEndpoint {
         List<Recipe> recipes = recipeService.getRecipesFromIngredientName(ingredient);
         List<RecipeResource> recipeResources = recipeResourceAssembler.toResources(recipes);
 
-        Link link = linkTo(methodOn(RecipeEndpoint.class).getRecipeFromIngredientName(ingredient)).withSelfRel();
-        Resources<RecipeResource> result = new Resources<>(recipeResources, link);
+        Resources<RecipeResource> result;
+        if(recipes.size() > 0){
+            Link link = linkTo(methodOn(RecipeEndpoint.class).getRecipeFromIngredientName(ingredient)).withSelfRel();
+            result = new Resources<>(recipeResources, link);
+        }else{
+            result = new Resources<>(recipeResources);
+        }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -101,8 +120,13 @@ public class RecipeEndpoint {
         List<Ingredient> ingredients = recipeService.getAllIngredients();
         List<IngredientResource> ingredientResources = ingredientResourceAssembler.toResources(ingredients);
 
-        Link link = linkTo(methodOn(RecipeEndpoint.class).getAllIngredients()).withSelfRel();
-        Resources<IngredientResource> result = new Resources<>(ingredientResources, link);
+        Resources<IngredientResource> result;
+        if(ingredients.size() > 0){
+            Link link = linkTo(methodOn(RecipeEndpoint.class).getAllIngredients()).withSelfRel();
+            result = new Resources<>(ingredientResources, link);
+        }else{
+            result = new Resources<>(ingredientResources);
+        }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
